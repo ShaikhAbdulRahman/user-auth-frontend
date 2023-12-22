@@ -10,12 +10,13 @@ import {
     FormLabel,
     HStack,
     Input,
+    Spinner,
     Stack,
     Text,
     useToast,
   } from "@chakra-ui/react";
-  import React from "react";
-  import { Link, useNavigate} from "react-router-dom";
+  import React, { useState } from "react";
+  import { Link} from "react-router-dom";
   import { Formik, Form, Field } from "formik";
   import { object, string, ref } from "yup";
 import useAuth from "../../../hooks/useAuth";
@@ -28,10 +29,12 @@ const signinValidationSchema = object({
   });
 
 const SignIn = () => {
+  const [loading , setLoading]=useState(false)
   const toast = useToast()
   const {login}= useAuth()
   const handleSignIn= async(values)=>{
     try {
+      setLoading(true)
       const response= await fetch("https://user-authentication-backend-six.vercel.app/user/login",{
         method:"POST",
         headers:{
@@ -67,31 +70,36 @@ const SignIn = () => {
         duration: 3000,
         isClosable: true,
       })
+    } finally{
+      setLoading(false)
     }
   }
 
 
     return(
-        <Container bg={{ base: "white", md: "none" }}>
+        // <Container bg={{ base: "white", md: "none" }}>
         <Center minH="100vh">
           <Card
             bg={{
-              base: "transparent",
+              base: "white",
               md: "white",
             }}
             p={{
-              base: "0",
+              base: "6",
               md: "6",
             }}
             borderRadius={{
-              base: "none",
+              base: "16px",
               md: "1rem",
             }}
             boxShadow={{
               base: "none",
               md: "0px 4px 20px rgba(0,0,0,0.05)",
             }}
-            width="456px"
+            width={{
+              base: "360px",
+              md: "456px",
+            }}
           >
             <Text textStyle="h1" fontWeight={500}>
               Welcome to Crypto App
@@ -151,12 +159,12 @@ const SignIn = () => {
                     </HStack>
                     <Box>
                       <Button
-                        // isLoading={isLoading}
+                        isLoading={loading}
                         w="full"
                         type="submit"
                         colorScheme="gray"
                       >
-                        Log In
+                {loading ? <Spinner/> : "Log In"}
                       </Button>
                       <Link to="/signup">
                         <Button mt={3} w="full" variant="outline">
@@ -170,7 +178,7 @@ const SignIn = () => {
             </Formik>
           </Card>
         </Center>
-      </Container>
+      // </Container>
     )
   }
 export default SignIn;

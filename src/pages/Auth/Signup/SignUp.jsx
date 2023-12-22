@@ -9,6 +9,7 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  Spinner,
   Stack,
   Text,
   useToast,
@@ -16,6 +17,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { object, string, ref } from "yup";
+import { useState } from "react";
 // import { useMutation } from "react-query";
 
 const signupValidationSchema = object({
@@ -31,10 +33,13 @@ const signupValidationSchema = object({
 });
 
 const SignUp = () => {
+  const [loading, setLoading] = useState(false);
   const toast = useToast()
   const navigate = useNavigate()
+
   const handleSignUp = async (values) => {
     try {
+      setLoading(true);
       const response = await fetch("https://user-authentication-backend-six.vercel.app/user/register", {
         method: "POST",
         headers: {
@@ -71,29 +76,34 @@ const SignUp = () => {
         duration: 3000,
         isClosable: true,
       });
+    } finally {
+      setLoading(false);
     }
   }
   return (
-    <Container bg={{ base: "white", md: "none" }}>
+    // <Container>
       <Center minH="100vh">
         <Card
           bg={{
-            base: "transparent",
+            base: "white",
             md: "white",
           }}
           p={{
-            base: "0",
+            base: "6",
             md: "6",
           }}
           borderRadius={{
-            base: "none",
+            base: "16px",
             md: "1rem",
           }}
           boxShadow={{
             base: "none",
             md: "0px 4px 20px rgba(0,0,0,0.05)",
           }}
-          width="456px"
+          width={{
+            base: "360px",
+            md: "456px",
+          }}
         >
           <Text textStyle="h1" fontWeight="meduim">
             Welcome to Crypto App
@@ -196,7 +206,9 @@ const SignUp = () => {
                       </Text>
                     </Text>
                   </Checkbox>
-                  <Button type="submit">Create Account</Button>
+                  <Button isLoading={loading} type="submit">
+                {loading ? <Spinner/> : "Create Account"}
+                  t</Button>
                   <Text
                     fontStyle={500}
                     textStyle="p3"
@@ -216,7 +228,7 @@ const SignUp = () => {
           </Formik>
         </Card>
       </Center>
-    </Container>
+    // </Container>
   );
 };
 export default SignUp;

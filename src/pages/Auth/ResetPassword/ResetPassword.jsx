@@ -15,9 +15,9 @@ import {
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { object, string, ref } from "yup";
+import { useNavigate, useParams } from "react-router-dom";
 
 const resetValidationSchema = object({
   password: string()
@@ -30,45 +30,45 @@ const resetValidationSchema = object({
 
 const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
-  const {id,token}= useParams()
   const toast = useToast();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+  const { id, token } = useParams();
 
-  const handleSubmit = async (values, { setSubmitting }) => {
-    setLoading(true)
+  const handleResetPassword = async (values) => {
     try {
-      const response = await axios.post(`https://user-authentication-backend-six.vercel.app/reset-password/${id}/${token}`,
-      {
+      setLoading(true);
+      const response = await axios.post(`https://user-authentication-backend-six.vercel.app/reset-password/${id}/${token}`, {
         password: values.password,
       });
-     
-    if (response.status === 200){
+
+      if (response.status === 200) {
+        toast({
+          title: "Password reset successfully",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        navigate("/reset-success");
+      } else {
+        toast({
+          title: "Error resetting password",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
       toast({
-        title: "Password reset successfully",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
-      navigate("/reset-success")
-    } else {
-      toast({
-        title: "error",
+        title: "Something went wrong. Please try again later",
         status: "error",
         duration: 3000,
         isClosable: true,
-      })
-    }
-    } catch (error) {
-      toast({
-        title:"Something went Wrong. Please try again later",
-        status:"error",
-        duration:1000,
-        isClosable:true
       });
     } finally {
-      setSubmitting(false);
-    } setLoading(false)
+      setLoading(false);
+    }
   };
+
   return (
     <Center minH="100vh">
       <Card
@@ -104,7 +104,7 @@ const ResetPassword = () => {
             password: "",
             repeatpassword: "",
           }}
-          onSubmit={handleSubmit}
+          onSubmit={handleResetPassword}
           validationSchema={resetValidationSchema}
         >
           {() => (
@@ -142,7 +142,7 @@ const ResetPassword = () => {
                 </Field>
               </Stack>
               <Button mt="24px" w="full" colorScheme="gray" type="submit">
-                {loading ? <Spinner/> : "Reset Password"}
+              {loading ? <Spinner /> : "Reset Password"}
               </Button>
             </Form>
           )}
