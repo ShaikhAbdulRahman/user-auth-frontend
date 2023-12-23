@@ -17,6 +17,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
+import { ViewIcon,ViewOffIcon } from '@chakra-ui/icons'
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
@@ -146,12 +147,12 @@ const SignIn = () => {
                         <Input
                           {...field}
                           name="password"
-                          type={show ? "text" : "password"}
+                          type={<ViewOffIcon/> ? "text" : "password"}
                           placeholder="Enter your password..."
                         />
                         <InputRightElement width="4.5rem">
                           <Button h="1.75rem" size="sm" onClick={handleClick}>
-                            {show ? "Hide" : "Show"}
+                            {<ViewIcon/> ? "Hide" : "Show"}
                           </Button>
                         </InputRightElement>
                       </InputGroup>
