@@ -8,7 +8,10 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  IconButton,
   Input,
+  InputGroup,
+  InputRightElement,
   Spinner,
   Stack,
   Text,
@@ -18,6 +21,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { object, string, ref } from "yup";
 import { useState } from "react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 // import { useMutation } from "react-query";
 
 const signupValidationSchema = object({
@@ -36,6 +40,10 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const toast = useToast()
   const navigate = useNavigate()
+  const [show, setShow] = useState(false);
+  const [showRepPassword, setShowRepPassword] = useState(false);
+  const handleClick = () => setShow(!show);
+  const handleRepPassword = () => setShowRepPassword(!showRepPassword)
 
   const handleSignUp = async (values) => {
     try {
@@ -171,12 +179,19 @@ const SignUp = () => {
                     {({ field, meta }) => (
                       <FormControl isInvalid={!!(meta.error && meta.touched)}>
                         <FormLabel htmlFor="password">Password</FormLabel>
+                      <InputGroup size="md">
                         <Input
                           {...field}
                           name="password"
-                          type="password"
+                          type={show ? "text" : "password"}
                           placeholder="Enter your password..."
                         />
+                        <InputRightElement width="2.8rem">
+                          <IconButton isRound={true} h="1.75rem" size="md" bg="white" colorScheme="gray" onClick={handleClick}>
+                            {show ? <ViewIcon />: <ViewOffIcon/>}
+                          </IconButton>
+                        </InputRightElement>
+                      </InputGroup>
                         <FormErrorMessage>{meta.error}</FormErrorMessage>
                       </FormControl>
                     )}
@@ -188,16 +203,24 @@ const SignUp = () => {
                         <FormLabel htmlFor="repeatpassword">
                           Repeat Password
                         </FormLabel>
+                      <InputGroup size="md">
                         <Input
                           {...field}
                           name="repeatpassword"
-                          type="password"
+                          type={showRepPassword ? "text" : "password"}
                           placeholder="Enter your repeatPassword..."
                         />
+                        <InputRightElement width="2.8rem">
+                          <IconButton isRound={true} h="1.75rem" size="md" bg="white" colorScheme="gray" onClick={handleRepPassword}>
+                            {showRepPassword ? <ViewIcon />: <ViewOffIcon/>}
+                          </IconButton>
+                        </InputRightElement>
+                      </InputGroup>
                         <FormErrorMessage>{meta.error}</FormErrorMessage>
                       </FormControl>
                     )}
                   </Field>
+                  
                   <Checkbox>
                     <Text textStyle="p3">
                       I agree with{" "}

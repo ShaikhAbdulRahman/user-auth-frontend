@@ -9,6 +9,7 @@ import {
   FormErrorMessage,
   FormLabel,
   HStack,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -147,13 +148,13 @@ const SignIn = () => {
                         <Input
                           {...field}
                           name="password"
-                          type={<ViewOffIcon/> ? "text" : "password"}
+                          type={show ? "text" : "password"}
                           placeholder="Enter your password..."
                         />
-                        <InputRightElement width="4.5rem">
-                          <Button h="1.75rem" size="sm" onClick={handleClick}>
-                            {<ViewIcon/>  ? "Hide" : "Show"}
-                          </Button>
+                        <InputRightElement width="2.8rem">
+                          <IconButton isRound={true} h="1.75rem" size="md" bg="white" colorScheme="gray" onClick={handleClick}>
+                            {show ? <ViewIcon />: <ViewOffIcon/>}
+                          </IconButton>
                         </InputRightElement>
                       </InputGroup>
                       <FormErrorMessage>{meta.error}</FormErrorMessage>

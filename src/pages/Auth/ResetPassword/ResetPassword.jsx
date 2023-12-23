@@ -7,7 +7,10 @@ import {
   FormErrorMessage,
   FormLabel,
   Icon,
+  IconButton,
   Input,
+  InputGroup,
+  InputRightElement,
   Spinner,
   Stack,
   Text,
@@ -18,6 +21,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { object, string, ref } from "yup";
 import { useNavigate, useParams } from "react-router-dom";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 const resetValidationSchema = object({
   password: string()
@@ -30,6 +34,10 @@ const resetValidationSchema = object({
 
 const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
+  const [show, setShow] = useState(false);
+  const [showRepPassword, setShowRepPassword] = useState(false);
+  const handleClick = () => setShow(!show);
+  const handleRepPassword = () => setShowRepPassword(!showRepPassword)
   const toast = useToast();
   const navigate = useNavigate();
   const { id, token } = useParams();
@@ -114,12 +122,19 @@ const ResetPassword = () => {
                   {({ field, meta }) => (
                     <FormControl isInvalid={!!(meta.error && meta.touched)}>
                       <FormLabel htmlFor="password">New Password</FormLabel>
+                      <InputGroup size="md">
                       <Input
                         {...field}
                         name="password"
-                        type="password"
+                        type={show ? "text" : "password"}
                         placeholder="Enter your password..."
                       />{" "}
+                        <InputRightElement width="2.8rem">
+                          <IconButton isRound={true} h="1.75rem" size="md" bg="white" colorScheme="gray" onClick={handleClick}>
+                            {show ? <ViewIcon />: <ViewOffIcon/>}
+                          </IconButton>
+                        </InputRightElement>
+                        </InputGroup>
                       <FormErrorMessage>{meta.error}</FormErrorMessage>
                     </FormControl>
                   )}
@@ -130,12 +145,19 @@ const ResetPassword = () => {
                       <FormLabel htmlFor="repeatpassword">
                         Repeat New Password
                       </FormLabel>
+                      <InputGroup size="md">
                       <Input
                         {...field}
                         name="repeatpassword"
-                        type="password"
+                        type={showRepPassword ? "text" : "password"}
                         placeholder="Enter your repeatPassword..."
                       />
+                      <InputRightElement width="2.8rem">
+                          <IconButton isRound={true} h="1.75rem" size="md" bg="white" colorScheme="gray" onClick={handleRepPassword}>
+                            {showRepPassword ? <ViewIcon />: <ViewOffIcon/>}
+                          </IconButton>
+                        </InputRightElement>
+                      </InputGroup>
                       <FormErrorMessage>{meta.error}</FormErrorMessage>
                     </FormControl>
                   )}
