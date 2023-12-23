@@ -141,17 +141,19 @@ const SignIn = () => {
                   {({ field, meta }) => (
                     <FormControl isInvalid={!!(meta.error && meta.touched)}>
                       <FormLabel htmlFor="password">Password</FormLabel>
-                      <Input
-                        {...field}
-                        name="password"
-                        type={show ? "text" : "password"}
-                        placeholder="Enter your password..."
-                      />
-                      <InputRightElement width="4.5rem">
-                        <Button h="1.75rem" size="sm" onClick={handleClick}>
-                          {show ? "Hide" : "Show"}
-                        </Button>
-                      </InputRightElement>
+                      <InputGroup size="md">
+                        <Input
+                          {...field}
+                          name="password"
+                          type={show ? "text" : "password"}
+                          placeholder="Enter your password..."
+                        />
+                        <InputRightElement width="4.5rem">
+                          <Button h="1.75rem" size="sm" onClick={handleClick}>
+                            {show ? "Hide" : "Show"}
+                          </Button>
+                        </InputRightElement>
+                      </InputGroup>
                       <FormErrorMessage>{meta.error}</FormErrorMessage>
                     </FormControl>
                   )}
