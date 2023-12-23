@@ -152,7 +152,7 @@ const SignIn = () => {
                         />
                         <InputRightElement width="4.5rem">
                           <Button h="1.75rem" size="sm" onClick={handleClick}>
-                            {<ViewIcon/> ? "Hide" : "Show"}
+                            {<ViewIcon/>  ? "Hide" : "Show"}
                           </Button>
                         </InputRightElement>
                       </InputGroup>
