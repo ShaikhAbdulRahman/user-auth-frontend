@@ -10,6 +10,7 @@ import {
   FormLabel,
   HStack,
   Input,
+  InputRightElement,
   Spinner,
   Stack,
   Text,
@@ -146,9 +147,11 @@ const SignIn = () => {
                         type={show ? "text" : "password"}
                         placeholder="Enter your password..."
                       />
-                      <Button h="1.75rem" size="sm" onClick={handleClick}>
-                        {show ? "Hide" : "Show"}
-                      </Button>
+                      <InputRightElement width="4.5rem">
+                        <Button h="1.75rem" size="sm" onClick={handleClick}>
+                          {show ? "Hide" : "Show"}
+                        </Button>
+                      </InputRightElement>
                       <FormErrorMessage>{meta.error}</FormErrorMessage>
                     </FormControl>
                   )}
