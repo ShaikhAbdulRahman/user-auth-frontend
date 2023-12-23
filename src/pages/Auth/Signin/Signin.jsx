@@ -10,6 +10,7 @@ import {
   FormLabel,
   HStack,
   Input,
+  InputGroup,
   InputRightElement,
   Spinner,
   Stack,
